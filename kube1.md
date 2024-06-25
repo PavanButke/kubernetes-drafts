@@ -325,4 +325,9 @@ PS C:\Users\butke> kubectl get pods
 NAME       READY   STATUS              RESTARTS   AGE
 nginx      1/1     Running             0          9m35s
 postgres   0/1     ContainerCreating   0          9s
-PS C:\Users\butke>
+PS C:\Users\butke> kubectl get pods -w
+NAME       READY   STATUS             RESTARTS     AGE
+nginx      1/1     Running            0            14m
+postgres   0/1     CrashLoopBackOff   5 (2m ago)   5m33s
+PS C:\Users\butke> kubectl delete pod postgres
+pod "postgres" deleted
