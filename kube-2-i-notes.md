@@ -57,3 +57,25 @@ spec:
         - containerPort: 80` 
 -  similarly apply this manifest
    -  `kubectl apply -f replicaset-test.yml`
+- get replicasets
+  - `kubectl get rs`
+  
+## Services
+-   consists of
+        -   clusterIP
+        -   NodePort
+        -   LoadBalancer
+-  write service-test.yml
+  -  ` apiVersion: v1
+            kind: Service
+            metadata:
+            name: nginx-service
+            spec:
+            selector:
+                app: nginx
+            ports:
+                - protocol: TCP
+                port: 80
+                targetPort: 80
+                nodePort: 30007  # This port can be any valid port within the NodePort range
+            type: NodePort`
