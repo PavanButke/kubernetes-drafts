@@ -30,4 +30,30 @@
 - apply this manifest
   - `kubectl apply -f deployment-test.yml`
 - help: vim     `:set paste`
-- 
+- details about the pod
+  - `kubectl decscribe pod pod-name`
+
+## Replica Set
+- similar as deployment 
+- need to write manifest.yml here as well
+- `apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80` 
+-  similarly apply this manifest
+   -  `kubectl apply -f replicaset-test.yml`
