@@ -78,4 +78,20 @@ spec:
                 port: 80
                 targetPort: 80
                 nodePort: 30007  # This port can be any valid port within the NodePort range
-            type: NodePort`
+            type: NodePort  `
+- apply `kubectl apply -f service-test.yml`
+- `kubectl get services`
+- expose the ports for local sys
+     `kind: Cluster
+        apiVersion: kind.x-k8s.io/v1alpha4
+        nodes:
+        role: control-plane
+        extraPortMappings:
+        containerPort: 30007
+            hostPort: 30007
+        role: worker
+        role: worker`
+
+- loadbalancers are outside k8s cluster
+- 
+
