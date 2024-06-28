@@ -208,3 +208,155 @@ Events:
   Normal  Pulled     10m   kubelet            Successfully pulled image "nginx:latest" in 2.488s (2.488s including waiting). Image size: 71010466 bytes.
   Normal  Created    10m   kubelet            Created container nginx
   Normal  Started    10m   kubelet            Started container nginx
+
+  C:\Users\butke>docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED       STATUS         PORTS                       NAMES
+b6e285e0e53d   kindest/node:v1.30.0   "/usr/local/bin/entr…"   12 days ago   Up 6 seconds   127.0.0.1:52610->6443/tcp   local-control-plane
+172c51baf476   kindest/node:v1.30.0   "/usr/local/bin/entr…"   12 days ago   Up 6 seconds                               local-worker2
+84e309c428cb   kindest/node:v1.30.0   "/usr/local/bin/entr…"   12 days ago   Up 6 seconds                               local-worker
+
+C:\Users\butke>kubectl get pods
+NAME                                  READY   STATUS    RESTARTS      AGE
+nginx                                 1/1     Running   2 (18s ago)   2d15h
+p1-deployment-nginx-576c6b7b6-cv79q   1/1     Running   1 (18s ago)   38h
+p1-deployment-nginx-576c6b7b6-cxlg9   1/1     Running   1 (18s ago)   38h
+p1-deployment-nginx-576c6b7b6-f8nmq   1/1     Running   1 (18s ago)   38h
+p1-deployment-nginx-576c6b7b6-kd4sj   1/1     Running   1 (18s ago)   38h
+
+C:\Users\butke>kubectl get deployment
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+p1-deployment-nginx   4/4     4            4           38h
+p1-deployment-ngnix   0/0     0            0           39h
+
+C:\Users\butke>kubectl delete deployment p1-deployment-nginx
+deployment.apps "p1-deployment-nginx" deleted
+
+C:\Users\butke>kubectl delete deployment p1-deployment-ngnix
+deployment.apps "p1-deployment-ngnix" deleted
+
+C:\Users\butke>kubetcl get deployment
+'kubetcl' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\butke>kubectl get deployment
+No resources found in default namespace.
+
+C:\Users\butke>kubectl get pods
+NAME    READY   STATUS    RESTARTS        AGE
+nginx   1/1     Running   2 (2m13s ago)   2d15h
+
+C:\Users\butke>vim replicaset-test.yml
+
+C:\Users\butke>kubectl apply -f replicaset-test.yml
+replicaset.apps/nginx-replicaset created
+
+C:\Users\butke>kubectl get rs
+NAME               DESIRED   CURRENT   READY   AGE
+nginx-replicaset   3         3         3       11s
+
+C:\Users\butke>kubectl get pods
+NAME                     READY   STATUS    RESTARTS      AGE
+nginx                    1/1     Running   2 (20m ago)   2d15h
+nginx-replicaset-45kkg   1/1     Running   0             30s
+nginx-replicaset-5xm5w   1/1     Running   0             30s
+nginx-replicaset-pp99p   1/1     Running   0             30s
+
+C:\Users\butke>vim service-test.yml
+
+C:\Users\butke>kubectl apply -f service-test.yml
+error: error validating "service-test.yml": error validating data: apiVersion not set; if you choose to ignore these errors, turn validation off with --validate=false
+
+C:\Users\butke>vim service-test.yml
+
+C:\Users\butke>kubectl apply -f service-test.yml
+service/nginx-service created
+
+C:\Users\butke>kubectl get pods
+NAME                     READY   STATUS    RESTARTS     AGE
+nginx                    1/1     Running   2 (8h ago)   2d23h
+nginx-replicaset-45kkg   1/1     Running   0            8h
+nginx-replicaset-5xm5w   1/1     Running   0            8h
+nginx-replicaset-pp99p   1/1     Running   0            8h
+
+C:\Users\butke>kubectl get services
+NAME            TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)        AGE
+kubernetes      ClusterIP   10.96.0.1     <none>        443/TCP        13d
+nginx-service   NodePort    10.96.2.180   <none>        80:30007/TCP   28s
+
+C:\Users\butke>kind get cluster
+ERROR: unknown command "cluster" for "kind get"
+
+C:\Users\butke>kind get clusters
+local
+
+C:\Users\butke>cat clusters.yml
+'cat' is not recognized as an internal or external command,
+operable program or batch file.
+
+
+PS C:\Users\butke> cat clusters.yml
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+PS C:\Users\butke> vim cluster.yml
+PS C:\Users\butke> vim clusters.yml
+PS C:\Users\butke> kubectl get clusters
+error: the server doesn't have a resource type "clusters"
+PS C:\Users\butke> kind get clusters
+local
+PS C:\Users\butke> kind delete cluster --name local
+Deleting cluster "local" ...
+Deleted nodes: ["local-control-plane" "local-worker2" "local-worker"]
+PS C:\Users\butke> kind create cluster --config kind.yml --local-test
+ERROR: unknown flag: --local-test
+PS C:\Users\butke> kind create cluster --config kind.yml --name local-test
+ERROR: failed to create cluster: error reading file: open kind.yml: The system cannot find the file specified.
+PS C:\Users\butke> cat kind.yml
+cat : Cannot find path 'C:\Users\butke\kind.yml' because it does not exist.
+At line:1 char:1
++ cat kind.yml
++ ~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\butke\kind.yml:Str
+   ing) [Get-Content], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.G
+   etContentCommand
+
+PS C:\Users\butke> ^C
+PS C:\Users\butke> kind create cluster --config kind.yml --name local-test
+ERROR: failed to create cluster: error reading file: open kind.yml: The system cannot find the file specified.
+PS C:\Users\butke> kind create cluster --config clusters.yml --name local-test
+Creating cluster "local-test" ...
+ ✓ Ensuring node image (kindest/node:v1.30.0) 🖼
+ ✓ Preparing nodes 📦 📦 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing CNI 🔌
+ ✓ Installing StorageClass 💾
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-local-test"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-local-test
+
+Thanks for using kind! 😊
+PS C:\Users\butke> docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                                                 NAMES
+0ab0a7f8a800   kindest/node:v1.30.0   "/usr/local/bin/entr…"   53 seconds ago   Up 44 seconds   0.0.0.0:30007->30007/tcp, 127.0.0.1:60477->6443/tcp   local-test-control-plane
+cb88be5c69d8   kindest/node:v1.30.0   "/usr/local/bin/entr…"   53 seconds ago   Up 44 seconds   0.0.0.0:30008->30007/tcp                              local-test-worker
+7ebcc04db009   kindest/node:v1.30.0   "/usr/local/bin/entr…"   53 seconds ago   Up 44 seconds   0.0.0.0:30009->30007/tcp                              local-test-worker2
+PS C:\Users\butke>
+
+
+                   kubectl apply -f deployment-class.yml
+error: the path "deployment-class.yml" does not exist
+PS C:\Users\butke> kubectl apply -f deployment-test.yml
+deployment.apps/p1-deployment-nginx created
+PS C:\Users\butke> kubectl apply -f service-test.yml
+service/nginx-service created
+PS C:\Users\butke> kubectl get svc
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGEkubernetes      ClusterIP   10.96.0.1       <none>        443/TCP        2m2s
+nginx-service   NodePort    10.96.124.218   <none>        80:30007/TCP   11sPS C:\Users\butke>
+PS C:\Users\butke>
